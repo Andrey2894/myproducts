@@ -5,18 +5,17 @@ import com.example.myproducts.dal.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.List;
 
 @RequestMapping("/products")
 @RestController
-@CrossOrigin
 public class ProductController {
 
     @Autowired
     private ProductService service;
 
     @GetMapping("/listAll")
-    public HashMap<Long,Product> listAll() {
+    public List<Product> listAll() {
         return service.listAll();
     }
 
@@ -26,8 +25,8 @@ public class ProductController {
     }
 
     @PostMapping()
-    public Product addProduct(@RequestBody Product product,@RequestParam Long id) {
-        return service.createProduct(id,product);
+    public Product addProduct(@RequestBody Product product) {
+        return service.createProduct(product);
     }
 
     @PutMapping("/{id}")
