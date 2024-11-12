@@ -1,59 +1,52 @@
 package com.example.myproducts.bll;
 
 import com.example.myproducts.dal.Product;
-import com.example.myproducts.exceptions.IdException;
-import org.springframework.stereotype.Repository;
+import com.example.myproducts.exceptions.IdAlreadyExistsException;
+import com.example.myproducts.exceptions.IdNotFoundException;
+import com.example.myproducts.exceptions.NameException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 
 @Service
 public class ProductService {
-    private static List<Product> productList = new ArrayList<>();
+    private HashMap<Long,Product> productMap = new HashMap();
 
-    public List<Product> listAll() {
-        return productList;
+    public HashMap<Long,Product> listAll() {
+        return productMap;
     }
 
     public Product getProductById(Long id) {
-        for (Product product : productList) {
-            if (product.getId().equals(id)) {
-                return product;
-
-            }
-        }
-        throw new IdException();
+        Product product = productMap.get(id);
+        if (product == null) throw new IdNotFoundException();
+        return product;
     }
 
-    public Product createProduct(Product product) {
-        if (product.getId() == null) return null;
-        if (product.getName() == null || product.getName().length() > 256) return null;
-        if (product.getDescription() == null || product.getDescription().length() > 4096) product.setDescription("");
-        if (product.getPrice() < 0) product.setPrice(0);
-        productList.add(product);
+    public Product createProduct(Long id,Product product) {
+        if (productMap.containsKey(id)) throw new IdAlreadyExistsException();
+        if (id == null) return null;
+        validateProduct(product);
+        productMap.put(id,product);
         return product;
     }
 
     public Product updateProduct(Product product,Long id) {
-        product.setId(id);
-        if (product.getName() == null || product.getName().length() > 256) return null;
-        if (product.getDescription() == null || product.getDescription().length() > 4096) product.setDescription("");
-        if (product.getPrice() < 0) product.setPrice(0);
-
-        Product product1 = getProductById(id);
-        if (product1 != null) {
-            int i = productList.indexOf(product1);
-            productList.set(i,product);
-            return product;
-        }
-        return null;
+        validateProduct(product);
+        if (!productMap.containsKey(id)) return null;
+        productMap.remove(id);
+        productMap.put(id,product);
+        return product;
     }
 
 
     public void deleteProductById(Long id) {
-        productList.remove(getProductById(id));
+        productMap.remove(id);
     }
 
+    private void validateProduct(Product product) {
+        if (product.getName() == null || product.getName().length() > 256) throw new NameException();
+        if (product.getDescription() == null || product.getDescription().length() > 4096) product.setDescription("");
+        if (product.getPrice() < 0) product.setPrice(0);
+    }
 }

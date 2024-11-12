@@ -4,26 +4,18 @@ package com.example.myproducts.dal;
 
 
 public class Product {
-    private Long id;
+//    private Long id;
     private String name;
     private String description;
     private long price;
     private boolean available;
 
-    public Product(Long id, String name, String description, long price, boolean available) {
-        this.id = id;
+    public Product(String name, String description, long price, boolean available) {
+
         this.name = name;
         this.description = description;
         this.price = price;
         this.available = available;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getDescription() {
