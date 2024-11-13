@@ -1,6 +1,5 @@
 package com.example.myproducts;
 
-import com.example.myproducts.dal.exceptions.NameException;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
