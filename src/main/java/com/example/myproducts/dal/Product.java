@@ -21,7 +21,7 @@ public class Product {
     private Long price = 0L;
     private Boolean available = false;
 
-    public Product(Long id, String name, String description, Long price, boolean available) {
+    public Product(Long id, String name, String description, Long price, Boolean available) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -61,7 +61,7 @@ public class Product {
         return available;
     }
 
-    public void setAvailable(boolean available) {
+    public void setAvailable(Boolean available) {
         this.available = available;
     }
 
@@ -72,6 +72,5 @@ public class Product {
     public void setName(String name) {
         this.name = name;
     }
-
 
 }
