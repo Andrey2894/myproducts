@@ -2,6 +2,7 @@ package com.example.myproducts.ep;
 
 import com.example.myproducts.bll.ProductService;
 import com.example.myproducts.dal.Product;
+import com.example.myproducts.dal.ProductFilterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +40,10 @@ public class ProductController {
         service.deleteProductById(id);
     }
 
+    @GetMapping("/getProducts")
+    public List<Product> getFilteredAndSortedProducts(@RequestBody ProductFilterRequest productFilterRequest) {
+        return service.getFilteredAndSortedProducts(productFilterRequest);
+    }
 
 
 
